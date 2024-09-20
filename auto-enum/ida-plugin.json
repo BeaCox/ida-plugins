@@ -1,0 +1,7 @@
+{
+    "plugin" :
+    {
+      "name" : "auto-enum",
+      "entryPoint" : "auto_enum.py"
+    }
+  }

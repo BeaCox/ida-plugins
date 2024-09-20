@@ -1,0 +1,7 @@
+{
+    "plugin" :
+    {
+      "name" : "keypatch",
+      "entryPoint" : "keypatch.py"
+    }
+  }
