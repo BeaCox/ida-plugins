@@ -1,0 +1,54 @@
+name: Sync plugin folder from dev to main
+
+on:
+  push:
+    branches:
+      - dev
+  workflow_dispatch:
+
+jobs:
+  sync_plugin:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository with submodules
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: true
+          submodules_recursive: true
+
+      - name: Checkout dev branch
+        run: git checkout dev
+
+      # - name: Update submodules
+      #   run: |
+      #     git submodule update --init --recursive
+
+      - name: Copy plugin folder
+        run: |
+          mkdir -p copied_auto_enum
+          cp -r auto-enum/plugin/* copied_auto_enum/
+
+      - name: Checkout main branch
+        run: git checkout main
+
+      - name: Replace auto-enum folder in main branch
+        run: |
+          if [ -f auto-enum/ida-plugin.json ]; then
+            mv auto-enum/ida-plugin.json /tmp/ida-plugin.json
+          fi
+          rm -rf auto-enum/*
+          cp -r copied_auto_enum/* auto-enum/
+          rm -rf auto-enum/.gitignore
+          if [ -f /tmp/ida-plugin.json ]; then
+            mv /tmp/ida-plugin.json auto-enum/ida-plugin.json
+          fi
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "email@example.com"
+          git config --local user.name "GitHub Actions"
+          git add auto-enum
+          git commit -m "auto: Sync plugin from dev to main"
+          git push origin main
