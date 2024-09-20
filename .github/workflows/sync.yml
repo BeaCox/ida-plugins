@@ -21,19 +21,18 @@ jobs:
       - name: Checkout dev branch
         run: git checkout dev
 
-      # - name: Update submodules
-      #   run: |
-      #     git submodule update --init --recursive
-
-      - name: Copy plugin folder
+      - name: Copy plugins from submodule
         run: |
           mkdir -p copied_auto_enum
           cp -r auto-enum/plugin/* copied_auto_enum/
 
+          mkdir -p copied_auto_re
+          cp auto_re/auto_re.py copied_auto_re/
+
       - name: Checkout main branch
         run: git checkout main
 
-      - name: Replace auto-enum folder in main branch
+      - name: copy the plugins to main branch
         run: |
           if [ -f auto-enum/ida-plugin.json ]; then
             mv auto-enum/ida-plugin.json /tmp/ida-plugin.json
@@ -45,10 +44,12 @@ jobs:
             mv /tmp/ida-plugin.json auto-enum/ida-plugin.json
           fi
 
+          cp copied_auto_re/auto_re.py auto_re.py
+
       - name: Commit and push changes
         run: |
           git config --local user.email "email@example.com"
           git config --local user.name "GitHub Actions"
-          git add auto-enum
+          git add auto_enum/ auto_re.py
           git commit -m "auto: Sync plugin from dev to main"
           git push origin main

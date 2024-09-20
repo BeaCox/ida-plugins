@@ -1,3 +1,6 @@
 [submodule "auto-enum"]
 	path = auto-enum
 	url = git@github.com:junron/auto-enum.git
+[submodule "auto_re"]
+	path = auto_re
+	url = git@github.com:a1ext/auto_re.git
