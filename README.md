@@ -1,5 +1,5 @@
 # ida-plugins
-Some ida plugins i use
+Some ida plugins i use (for ida9.0)
 
 + bindiff & binexport
 
@@ -12,3 +12,9 @@ Some ida plugins i use
 + auto-enum
 
   [junron](https://github.com/junron/auto-enum)
+
++ auto_re
+
+  [a1ext](https://github.com/a1ext/auto_re)
+
+
